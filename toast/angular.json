@@ -1,0 +1,168 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "dk-toast": {
+      "projectType": "library",
+      "root": "projects/dk-toast",
+      "sourceRoot": "projects/dk-toast/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/dk-toast/tsconfig.lib.json",
+            "project": "projects/dk-toast/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/dk-toast/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/dk-toast/src/test.ts",
+            "tsConfig": "projects/dk-toast/tsconfig.spec.json",
+            "karmaConfig": "projects/dk-toast/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/dk-toast/tsconfig.lib.json",
+              "projects/dk-toast/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "toastApplication": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/toastApplication",
+      "sourceRoot": "projects/toastApplication/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/toastApplication",
+            "index": "projects/toastApplication/src/index.html",
+            "main": "projects/toastApplication/src/main.ts",
+            "polyfills": "projects/toastApplication/src/polyfills.ts",
+            "tsConfig": "projects/toastApplication/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/toastApplication/src/favicon.ico",
+              "projects/toastApplication/src/assets"
+            ],
+            "styles": [
+              "projects/toastApplication/src/styles.css",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/themes/nova-light/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/toastApplication/src/environments/environment.ts",
+                  "with": "projects/toastApplication/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "toastApplication:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "toastApplication:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "toastApplication:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/toastApplication/src/test.ts",
+            "polyfills": "projects/toastApplication/src/polyfills.ts",
+            "tsConfig": "projects/toastApplication/tsconfig.spec.json",
+            "karmaConfig": "projects/toastApplication/karma.conf.js",
+            "assets": [
+              "projects/toastApplication/src/favicon.ico",
+              "projects/toastApplication/src/assets"
+            ],
+            "styles": [
+              "projects/toastApplication/src/styles.css"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/toastApplication/tsconfig.app.json",
+              "projects/toastApplication/tsconfig.spec.json",
+              "projects/toastApplication/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/toastApplication/e2e/protractor.conf.js",
+            "devServerTarget": "toastApplication:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "toastApplication:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "dk-toast"
+}
